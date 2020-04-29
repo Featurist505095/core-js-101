@@ -283,8 +283,8 @@ function isCreditCardNumber(ccn) {
   for (let i = 0; i < ccnArr.length; i += 1) {
     if (ccnArr.length % 2 > 0) {
       if (i % 2 === 1) {
-        result +=
-          Number(ccnArr[i]) * 2 > 9
+        result
+          += Number(ccnArr[i]) * 2 > 9
             ? Number(ccnArr[i]) * 2 - 9
             : Number(ccnArr[i]) * 2;
       } else {
@@ -293,8 +293,8 @@ function isCreditCardNumber(ccn) {
     } else if (i % 2 === 1) {
       result += Number(ccnArr[i]);
     } else {
-      result +=
-        Number(ccnArr[i]) * 2 > 9
+      result
+        += Number(ccnArr[i]) * 2 > 9
           ? Number(ccnArr[i]) * 2 - 9
           : Number(ccnArr[i]) * 2;
     }
