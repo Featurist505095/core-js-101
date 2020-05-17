@@ -454,29 +454,10 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
-  /*
-  return arr
-    .sort((a, b) => {
-      if (a.city > b.city) {
-        return 1;
-      }
-      if (a.city < b.city) {
-        return -1;
-      }
-      return 0;
-    })
-    .sort((a, b) => {
-      if (a.country > b.country) {
-        return 1;
-      }
-      if (a.country < b.country) {
-        return -1;
-      }
-      return 0;
-    });
-    */
+function sortCitiesArray(arr) {
+  return arr.sort(
+    (a, b) => a.country.localeCompare(b.country) || a.city.localeCompare(b.city),
+  );
 }
 
 /**
@@ -576,8 +557,17 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  return array.reduce((prev, curr) => {
+    let cities = prev.get(keySelector(curr));
+    if (cities) {
+      cities.push(valueSelector(curr));
+    } else {
+      cities = [valueSelector(curr)];
+    }
+    prev.set(keySelector(curr), cities);
+    return prev;
+  }, new Map());
 }
 
 /**
@@ -594,7 +584,7 @@ function group(/* array, keySelector, valueSelector */) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-  return arr.map((item) => [...childrenSelector(item)]);
+  return arr.reduce((prev, curr) => prev.concat(childrenSelector(curr)), []);
 }
 
 /**
